@@ -1,0 +1,48 @@
+﻿@model List<TeacherManagementSystem.Models.Subject>
+@{
+    ViewData["Title"] = "Subjects";
+}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>📚 Subject Management</h3>
+        <button class="btn btn-success" id="btnAdd">+Add Subject</button>
+    </div>
+    <div class="card shadow-sm">
+        <div class="card-body" id="tableContainer">
+            @Html.Partial("_SubjectTable", Model)
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="subjectModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Add Subject</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="modalBody">
+            @*     <input type="hidden" id="subjectId" />
+                <div class="mb-3">
+                    <label>Subject Name</label>
+                    <input type="text" class="form-control" id="subjectName" placeholder="Enter Subject Name" />
+                </div>
+                <div class="mb-3">
+                    <label>Subject Code</label>
+                    <input type="text" class="form-control" id="subjectCode" placeholder="Enter Subject Code" />
+            </div> *@
+        </div>
+        <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnSave">Save Subject</button>
+    </div>
+</div>
+</div>
+</div>
+@section Scripts{
+    <script src="~/js/Subject.js"></script>
+}
+
+
+
+
