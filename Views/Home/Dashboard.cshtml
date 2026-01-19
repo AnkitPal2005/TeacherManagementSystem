@@ -1,0 +1,16 @@
+﻿<div class="container mt-4">
+    <button class="btn btn-primary" onclick="loadsubjectsPage()">Subject Module</button>
+    <button class="btn btn-success" onclick="loadTeachersPage()">Teacher Module</button>
+    <hr />
+    <div id="spaContainer"></div>
+</div>
+@section Scripts{
+    <script>
+        function loadsubjectsPage() {
+            $("#spaContainer").load("/Subject/Index");
+        }
+        function loadTeachersPage() {
+            $("#spaContainer").load("/Teacher/Index");
+        }
+    </script>
+}

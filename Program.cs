@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
-
+builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -23,6 +23,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Subject}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Dashboard}/{id?}");
 
 app.Run();

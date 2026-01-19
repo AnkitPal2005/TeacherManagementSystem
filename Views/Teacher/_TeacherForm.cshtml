@@ -1,0 +1,18 @@
+﻿@model TeacherManagementSystem.Models.Teacher
+<form id="teacherForm">
+<input type="hidden" name="Id" id="hiddenTeacherId" value="@Model.Id" />
+<div class="mb-2">
+    <input type="text" name="Name" id="teacherName" class="form-control" value="@Model.Name" placeholder="Enter Teacher Name" />
+</div>
+<div class="mb-2">
+    <input type="email" name="Email" id="teacherEmail" class="form-control" value="@Model.Email" placeholder="Enter Teacher Email" />
+    </div>
+<div class="mb-2">
+    <select name="SubjectId"
+            id="ddlSubject"
+            class="form-select">
+        <option value="@Model.SubjectName">Select Subject</option>
+    </select>
+</div>
+    <button id="btnSaveTeacher" class="btn btn-success">Save</button>
+</form>

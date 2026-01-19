@@ -3,10 +3,11 @@ using Microsoft.Data.SqlClient;
 using TeacherManagementSystem.Models;
 namespace TeacherManagementSystem.Repositories
 {
-    public class SubjectRepository:ISubjectRepository
+    public class SubjectRepository : ISubjectRepository
     {
         private readonly string _connectionString;
-        public SubjectRepository(IConfiguration configuration) {
+        public SubjectRepository(IConfiguration configuration)
+        {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
         //Insert Subjects

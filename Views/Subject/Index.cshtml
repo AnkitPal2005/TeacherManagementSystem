@@ -1,4 +1,4 @@
-﻿@model List<TeacherManagementSystem.Models.Subject>
+﻿@* @model List<TeacherManagementSystem.Models.Subject>
 @{
     ViewData["Title"] = "Subjects";
 }
@@ -9,7 +9,7 @@
     </div>
     <div class="card shadow-sm">
         <div class="card-body" id="tableContainer">
-            @Html.Partial("_SubjectTable", Model)
+             @Html.Partial("_SubjectTable", Model)
         </div>
     </div>
 </div>
@@ -22,15 +22,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body" id="modalBody">
-            @*     <input type="hidden" id="subjectId" />
-                <div class="mb-3">
-                    <label>Subject Name</label>
-                    <input type="text" class="form-control" id="subjectName" placeholder="Enter Subject Name" />
-                </div>
-                <div class="mb-3">
-                    <label>Subject Code</label>
-                    <input type="text" class="form-control" id="subjectCode" placeholder="Enter Subject Code" />
-            </div> *@
         </div>
         <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -38,11 +29,173 @@
     </div>
 </div>
 </div>
+</div> *@
+@model List<TeacherManagementSystem.Models.Subject>
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>📚 Subject Management</h3>
+        <button class="btn btn-success" id="btnAdd">
+            + Add Subject
+        </button>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body" id="tableContainer">
+            @Html.Partial("_SubjectTable", Model)
+        </div>
+    </div>
+
+</div>
+
+<!-- Subject Modal -->
+<div class="modal fade" id="subjectModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">
+                    Add Subject
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
+
+            <div class="modal-body" id="modalBody">
+            </div>
+
+            <div class="modal-footer">
+
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    Close
+                </button>
+
+                <button type="button"
+                        class="btn btn-primary"
+                        id="btnSave">
+                    Save Subject
+                </button>
+
+            </div>
+
+        </div>
+    </div>
 </div>
 @section Scripts{
-    <script src="~/js/Subject.js"></script>
+    <script>
+    $(function () {
+        loadSubjects();
+
+        // Add Button Click
+        $("#btnAdd").on("click", function () {
+            $("#modalTitle").text("Add Subject");
+            $.get("/Subject/LoadForm", function (html) {
+                $("#modalBody").html(html);
+                $("#subjectModal").modal("show");
+            });
+        });
+
+        // Save Button Click - FIX: Check if already saving
+        $(document).off("click", "#btnSave")
+            .on("click", "#btnSave", function () {
+
+                // Prevent double submission
+                if ($(this).prop('disabled')) {
+                    return false;
+                }
+
+                var id = $("#subjectId").val() || 0;
+                var subjectObj = {
+                    Id: parseInt(id) || 0,
+                    Name: $("#subjectName").val(),
+                    Code: $("#subjectCode").val()
+                };
+
+                if (!subjectObj.Name.trim() || !subjectObj.Code.toString().trim()) {
+                    alert("Please fill in all fields.");
+                    return;
+                }
+
+                var url = subjectObj.Id === 0 ? "/Subject/Create" : "/Subject/Edit";
+
+                // Disable button to prevent double click
+                var $btn = $(this);
+                $btn.prop('disabled', true).text('Saving...');
+
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: subjectObj,
+                    success: function () {
+                        $("#subjectModal").modal("hide");
+                        loadSubjects();
+                        $btn.prop('disabled', false).text('Save');
+                    },
+                    error: function () {
+                        alert("Error saving subject.");
+                        $btn.prop('disabled', false).text('Save');
+                    }
+                });
+            });
+    });
+
+    // Edit Button Click
+    $(document).on("click", ".btn-subject-edit", function () {
+        var id = $(this).data("id");
+        $("#modalTitle").text("Edit Subject");
+        $.get("/Subject/EditPartial?id=" + id, function (html) {
+            $("#modalBody").html(html);
+            $("#subjectModal").modal("show");
+        });
+    });
+
+    // Delete Button Click
+    //$(document).on("click", ".btn-subject-delete", function () {
+    //    var id = $(this).data("id");
+
+    //    $.ajax({
+    //        url: "/Subject/Delete",
+    //        type: "POST",
+    //        data: { id: id },
+    //        success: function (response) {
+    //            loadSubjects();
+    //        },
+    //        error: function (xhr, status, error) {
+    //            alert("Delete failed: " + error);
+    //        }
+    //    });
+    //});
+    $(document).on("click", ".btn-subject-delete", function () {
+        var id = $(this).data("id");
+        $.ajax({
+            url: "/Subject/Delete",
+            type: "POST",
+            data: { id: id },
+            success: function () {
+                loadSubjects();
+            }
+        });
+    });
+
+    function loadSubjects() {
+        $.ajax({
+            url: "/Subject/LoadSubjects",
+            type: "GET",
+            success: function (html) {
+                $("#tableContainer").html(html);
+            },
+            error: function () {
+                $("#tableContainer").html("<div class='text-danger'>Failed to load subjects.</div>");
+            }
+        });
+    }
+
+    </script>
+
 }
-
-
-
-
