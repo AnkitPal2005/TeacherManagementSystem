@@ -45,6 +45,10 @@ namespace TeacherManagementSystem.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
+            if (_subjectRepository.IsSubjectUsed(id))
+            {
+                return BadRequest("Cannot delete subject as it is assigned to one or more teachers.");
+            }
             _subjectRepository.Delete(id);
             return Ok();
         }

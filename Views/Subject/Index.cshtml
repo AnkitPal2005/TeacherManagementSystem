@@ -133,6 +133,9 @@
             data: { id: id },
             success: function () {
                 loadSubjects();
+            },
+            error:function(xhr){
+                alert(xhr.responseText);
             }
         });
     });

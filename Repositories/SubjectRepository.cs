@@ -46,5 +46,12 @@ namespace TeacherManagementSystem.Repositories
             string sql = @"Delete From Subjects Where Id=@Id";
             return connection.Execute(sql, new { Id = id });
         }
+        public bool IsSubjectUsed(int id)
+        {
+            using var connection = new SqlConnection(_connectionString);
+            string sql= @"Select Count(*) From Teachers Where SubjectId=@Id";
+            int count = connection.ExecuteScalar<int>(sql, new { Id = id });
+            return count > 0;
+        }
     }
 }

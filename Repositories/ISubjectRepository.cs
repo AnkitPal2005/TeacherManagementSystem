@@ -10,5 +10,6 @@ namespace TeacherManagementSystem.Repositories
         Subject GetById(int id);
         int Update(Subject subject);
         int Delete(int id);
+        bool IsSubjectUsed(int id);
     }
 }
