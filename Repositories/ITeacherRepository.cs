@@ -8,5 +8,7 @@ namespace TeacherManagementSystem.Repositories
         int Add(Teacher teacher);
         int Update(Teacher teacher);
         int Delete(int id);
+        bool IsSubjectAlreadyAssigned(int subjectId, int teacherId = 0);
+
     }
 }

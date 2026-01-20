@@ -11,5 +11,8 @@ namespace TeacherManagementSystem.Repositories
         int Update(Subject subject);
         int Delete(int id);
         bool IsSubjectUsed(int id);
+        List<Subject> GetAvailableSubjects(int teacherId);
+        bool IsDuplicateSubject(string name, int id = 0);
+
     }
 }

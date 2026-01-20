@@ -5,14 +5,14 @@
 
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3>📚 Subject Management</h3>
-        <button class="btn btn-success" id="btnAdd">
+        <button class="btn btn-success btnAdd">
             + Add Subject
         </button>
     </div>
 
     <div class="card shadow-sm">
         <div class="card-body" id="tableContainer">
-            @Html.Partial("_SubjectTable", Model)
+            
         </div>
     </div>
 
@@ -57,102 +57,109 @@
     </div>
 </div>
 @section Scripts{
-    <script>
-    $(function () {
-        loadSubjects();
+  <script>
+       
+              $(function () {
+            loadSubjects();
 
-        // Add Button Click
-        $("#btnAdd").on("click", function () {
-            $("#modalTitle").text("Add Subject");
-            $.get("/Subject/LoadForm", function (html) {
-                $("#modalBody").html(html);
-                $("#subjectModal").modal("show");
+          // ADD SUBJECT BUTTON
+            $(document).on("click", ".btnAdd", function () {
+
+                console.log("btn add click");
+
+
+                $("#modalTitle").text("Add Subject");
+                $.get("/Subject/LoadForm", function (html) {
+                    $("#modalBody").html(html);
+                    $("#subjectModal").modal("show");
+                });
             });
+
+            // Save Button Click - FIX: Check if already saving
+            $(document).off("click", "#btnSave")
+                .on("click", "#btnSave", function () {
+
+                    // Prevent double submission
+                    if ($(this).prop('disabled')) {
+                        return false;
+                    }
+
+                    var id = $("#subjectId").val() || 0;
+                    var subjectObj = {
+                        Id: parseInt(id) || 0,
+                        Name: $("#subjectName").val(),
+                        Code: $("#subjectCode").val()
+                    };
+
+                    if (!subjectObj.Name.trim() || !subjectObj.Code.toString().trim()) {
+                        alert("Please fill in all fields.");
+                        return;
+                    }
+
+                    var url = subjectObj.Id === 0 ? "/Subject/Create" : "/Subject/Edit";
+
+                    // Disable button to prevent double click
+                    var $btn = $(this);
+                    $btn.prop('disabled', true).text('Saving...');
+
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        data: subjectObj,
+                        success: function () {
+                            $("#subjectModal").modal("hide");
+                            loadSubjects();
+                            $btn.prop('disabled', false).text('Save');
+                        },
+                        error: function (xhr) {
+                            alert(xhr.responseText);
+                            $btn.prop('disabled', false).text('Save');
+                        }
+                    });
+                });
         });
 
-        // Save Button Click - FIX: Check if already saving
-        $(document).off("click", "#btnSave")
-            .on("click", "#btnSave", function () {
+        //Edit Button Click
+        $(document).off("click", ".btn-subject-edit")
+            .on("click", ".btn-subject-edit", function () {
+                var id = $(this).data("id");
+                $("#modalTitle").text("Edit Subject");
+                $.get("/Subject/EditPartial?id=" + id, function (html) {
+                    $("#modalBody").html(html);
+                    $("#subjectModal").modal("show");
+                });
+            });
 
-                // Prevent double submission
-                if ($(this).prop('disabled')) {
-                    return false;
-                }
-
-                var id = $("#subjectId").val() || 0;
-                var subjectObj = {
-                    Id: parseInt(id) || 0,
-                    Name: $("#subjectName").val(),
-                    Code: $("#subjectCode").val()
-                };
-
-                if (!subjectObj.Name.trim() || !subjectObj.Code.toString().trim()) {
-                    alert("Please fill in all fields.");
-                    return;
-                }
-
-                var url = subjectObj.Id === 0 ? "/Subject/Create" : "/Subject/Edit";
-
-                // Disable button to prevent double click
-                var $btn = $(this);
-                $btn.prop('disabled', true).text('Saving...');
-
+        // Delete Button Click
+        $(document).off("click", ".btn-subject-delete")
+            .on("click", ".btn-subject-delete", function () {
+                var id = $(this).data("id");
                 $.ajax({
-                    url: url,
+                    url: "/Subject/Delete",
                     type: "POST",
-                    data: subjectObj,
+                    data: { id: id },
                     success: function () {
-                        $("#subjectModal").modal("hide");
                         loadSubjects();
-                        $btn.prop('disabled', false).text('Save');
                     },
-                    error: function () {
-                        alert("Error saving subject.");
-                        $btn.prop('disabled', false).text('Save');
+                    error: function (xhr) {
+                        alert(xhr.responseText);
                     }
                 });
             });
-    });
 
-    // Edit Button Click
-    $(document).on("click", ".btn-subject-edit", function () {
-        var id = $(this).data("id");
-        $("#modalTitle").text("Edit Subject");
-        $.get("/Subject/EditPartial?id=" + id, function (html) {
-            $("#modalBody").html(html);
-            $("#subjectModal").modal("show");
-        });
-    });
+        function loadSubjects() {
+            $.ajax({
+                url: "/Subject/LoadSubjects",
+                type: "GET",
+                success: function (html) {
+                    $("#tableContainer").html(html);
+                },
+                error: function () {
+                    $("#tableContainer").html("<div class='text-danger'>Failed to load subjects.</div>");
+                }
+            });
+        }
+        
+  </script>
 
-    // Delete Button Click
-    $(document).on("click", ".btn-subject-delete", function () {
-        var id = $(this).data("id");
-        $.ajax({
-            url: "/Subject/Delete",
-            type: "POST",
-            data: { id: id },
-            success: function () {
-                loadSubjects();
-            },
-            error:function(xhr){
-                alert(xhr.responseText);
-            }
-        });
-    });
-
-    function loadSubjects() {
-        $.ajax({
-            url: "/Subject/LoadSubjects",
-            type: "GET",
-            success: function (html) {
-                $("#tableContainer").html(html);
-            },
-            error: function () {
-                $("#tableContainer").html("<div class='text-danger'>Failed to load subjects.</div>");
-            }
-        });
-    }
-
-    </script>
-
-}
+} 

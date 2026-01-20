@@ -1,9 +1,8 @@
-﻿
-//$(function () {
+﻿//$(function () {
 //    loadSubjects();
 
-//    // Add Button Click
-//    $("#btnAdd").on("click", function () {
+//    // ADD SUBJECT BUTTON
+//    $(document).off("click", "#btnAdd").on("click", "#btnAdd", function () {
 //        $("#modalTitle").text("Add Subject");
 //        $.get("/Subject/LoadForm", function (html) {
 //            $("#modalBody").html(html);
@@ -56,26 +55,32 @@
 //});
 
 //// Edit Button Click
-//$(document).on("click", ".btn-subject-edit", function () {
-//    var id = $(this).data("id");
-//    $("#modalTitle").text("Edit Subject");
-//    $.get("/Subject/EditPartial?id=" + id, function (html) {
-//        $("#modalBody").html(html);
-//        $("#subjectModal").modal("show");
+//$(document).off("click", ".btn-subject-edit")
+//    .on("click", ".btn-subject-edit", function () {
+//        var id = $(this).data("id");
+//        $("#modalTitle").text("Edit Subject");
+//        $.get("/Subject/EditPartial?id=" + id, function (html) {
+//            $("#modalBody").html(html);
+//            $("#subjectModal").modal("show");
+//        });
 //    });
-//});
 
-//$(document).on("click", ".btn-subject-delete", function () {
-//    var id = $(this).data("id");
-//    $.ajax({
-//        url: "/Subject/Delete",
-//        type: "POST",
-//        data: { id: id },
-//        success: function () {
-//            loadSubjects();
-//        }
+//// Delete Button Click
+//$(document).off("click", ".btn-subject-delete")
+//    .on("click", ".btn-subject-delete", function () {
+//        var id = $(this).data("id");
+//        $.ajax({
+//            url: "/Subject/Delete",
+//            type: "POST",
+//            data: { id: id },
+//            success: function () {
+//                loadSubjects();
+//            },
+//            error: function (xhr) {
+//                alert(xhr.responseText);
+//            }
+//        });
 //    });
-//});
 
 //function loadSubjects() {
 //    $.ajax({
@@ -89,5 +94,3 @@
 //        }
 //    });
 //}
-
-

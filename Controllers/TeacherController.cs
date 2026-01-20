@@ -21,6 +21,7 @@ namespace TeacherManagementSystem.Controllers
             var data = _teacherRepo.GetAll();
             return PartialView("_TeacherTable", data);
         }
+        [HttpGet]
         public IActionResult LoadForm()
         {
             return PartialView("_TeacherForm", new Teacher());
@@ -28,6 +29,11 @@ namespace TeacherManagementSystem.Controllers
         [HttpPost]
         public IActionResult AddTeacher(Teacher teacher)
         {
+            bool alreadyAssigned = _teacherRepo.IsSubjectAlreadyAssigned(teacher.SubjectId,teacher.Id);
+            if (alreadyAssigned)
+            {
+                return BadRequest("This subject is already assigned to another teacher.");
+            }
             if (teacher.Id == 0) 
             _teacherRepo.Add(teacher);
             else                 
@@ -48,10 +54,6 @@ namespace TeacherManagementSystem.Controllers
               
                 return Ok();
        
-        }
-        public IActionResult TeacherPartial()
-        {
-            return PartialView("_TeacherIndexPartial");
         }
     }
 }

@@ -53,5 +53,25 @@ namespace TeacherManagementSystem.Repositories
             int count = connection.ExecuteScalar<int>(sql, new { Id = id });
             return count > 0;
         }
+        public List<Subject> GetAvailableSubjects(int teacherId)
+        {
+            using var connection = new SqlConnection(_connectionString);
+
+            string sql = @"SELECT * FROM Subjects WHERE Id NOT IN (SELECT SubjectId FROM Teachers WHERE Id != @TeacherId) ORDER BY Id ASC";
+
+            return connection.Query<Subject>(sql, new { TeacherId = teacherId }).ToList();
+        }
+        public bool IsDuplicateSubject(string name, int id = 0)
+        {
+            using var connection = new SqlConnection(_connectionString);
+
+            string sql = @" SELECT COUNT(*) FROM Subjects WHERE Name = @Name AND Id != @Id";
+
+            int count = connection.ExecuteScalar<int>(sql,
+                new { Name = name, Id = id });
+
+            return count > 0;
+        }
+
     }
 }

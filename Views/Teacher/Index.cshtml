@@ -15,105 +15,148 @@
         </div>
     </div>
 </div>
-@section Scripts{
+@section Scripts {
     <script>
 
-    $(function () {
-        loadTeachers();
-    });
+        $(document).ready(function () {
 
-    $(document).on("click", "#btnAddTeacher", function () {
-        $.get("/Teacher/LoadForm", function (html) {
-            $("#teacherModalBody").html(html);
-            loadSubjectDropdown();
-            $("#teacherModal").modal("show");
+            // INITIAL LOAD
+            loadTeachers();
+
+
+            // ADD TEACHER
+            $(document).on("click", "#btnAddTeacher", function () {
+
+                $.get("/Teacher/LoadForm", function (html) {
+
+                    $("#teacherModalBody").html(html);
+
+                    // teacherId = 0 (new add)
+                    loadSubjectDropdown(0, 0);
+
+                    $("#teacherModal").modal("show");
+
+                });
+
+            });
+
+
+            // SAVE TEACHER
+            $(document).on("click", "#btnSaveTeacher", function () {
+
+                var $btn = $(this);
+                if ($btn.prop("disabled")) return;
+
+                let formData = {
+                    Id: $("#hiddenTeacherId").val(),
+                    Name: $("input[name='Name']").val(),
+                    Email: $("input[name='Email']").val(),
+                    SubjectId: $("#ddlSubject").val()
+                };
+
+                $btn.prop("disabled", true);
+
+                $.ajax({
+                    url: "/Teacher/AddTeacher",
+                    type: "POST",
+                    data: formData,
+                    success: function () {
+
+                        $("#teacherModal").modal("hide");
+                        loadTeachers();
+
+                        $btn.prop("disabled", false);
+                    },
+                    error: function (xhr) {
+
+                        alert(xhr.responseText);
+                        $btn.prop("disabled", false);
+                    }
+                });
+
+            });
+
+
+            // EDIT TEACHER
+            $(document).on("click", ".btn-edit", function () {
+
+                let id = $(this).data("id");
+
+                $.get("/Teacher/LoadEditForm?id=" + id, function (html) {
+
+                    $("#teacherModalBody").html(html);
+
+                    var teacherId =
+                        parseInt($("#hiddenTeacherId").val());
+
+                    var selectedSubjectId =
+                        parseInt($("#hiddenSubjectId").val());
+
+                    // pass both ids
+                    loadSubjectDropdown(selectedSubjectId, teacherId);
+
+                    $("#teacherModal").modal("show");
+
+                });
+
+            });
+
+
+            // DELETE TEACHER
+            $(document).on("click", ".btn-teacher-delete", function () {
+
+                var id = $(this).data("id");
+
+                if (!confirm("Delete this teacher?")) return;
+
+                $.post("/Teacher/Delete", { id: id }, function () {
+                    loadTeachers();
+                });
+
+            });
+
         });
-    });
 
-    function loadTeachers() {
-        $.ajax({
-            url: "/Teacher/LoadTeachers",
-            type: "GET",
-            success: function (html) {
+
+        
+        // LOAD TEACHER TABLE
+        function loadTeachers() {
+
+            $.get("/Teacher/LoadTeachers", function (html) {
                 $("#teacherTableContainer").html(html);
-            },
-            error: function () {
-                alert("Error loading teachers.");
-            }
-        });
-    }
+            });
 
-    $(document).on("click", "#btnSaveTeacher", function () {
-
-        if ($(this).prop('disabled')) {
-            return false;
         }
 
-        let formData = {
-            Id: $("#hiddenTeacherId").val(),
-            Name: $("input[name='Name']").val(),
-            Email: $("input[name='Email']").val(),
-            SubjectId: $("#ddlSubject").val()
-        };
 
-        var $btn = $(this);
-        $btn.prop('disabled', true);
+     
+        // LOAD FILTERED SUBJECT DROPDOWN
+       
+        function loadSubjectDropdown(selectedId, teacherId) {
 
-        $.ajax({
-            url: "/Teacher/AddTeacher",
-            type: "POST",
-            data: formData,
-            success: function () {
-                $("#teacherModal").modal("hide");
-                loadTeachers();
-                $btn.prop('disabled', false);
-            },
-            error: function () {
-                alert("Teacher save failed");
-                $btn.prop('disabled', false);
-            }
-        });
-    });
+            $.get("/Subject/GetAvailableSubjects?teacherId=" + teacherId,
+                function (data) {
 
-    function loadSubjectDropdown(selectedId) {
-        $.get("/Subject/GetSubjects", function (data) {
-            var ddl = $("#ddlSubject");
-            ddl.empty();
-            ddl.append('<option value="">Select Subject</option>');
-            $.each(data, function (index, item) {
-                    var selected = (item.id === selectedId) ? "selected" : "";
-                ddl.append(
-                        '<option value="' + item.id + '" ' + selected + '>' +
-                    item.name +
-                    '</option>'
-                );
+                var ddl = $("#ddlSubject");
+                ddl.empty();
+
+                ddl.append('<option value="">Select Subject</option>');
+
+                $.each(data, function (i, item) {
+
+                    var selected =
+                        (item.id === selectedId) ? "selected" : "";
+
+                    ddl.append(
+                        `<option value="${item.id}" ${selected}>
+                            ${item.name}
+                         </option>`
+                    );
+                });
+
             });
-                
-        });
-    }
-
-    $(document).on("click", ".btn-edit", function () {
-        let id = $(this).data("id");
-        $.get("/Teacher/LoadEditForm?id=" + id, function (html) {
-            $("#teacherModalBody").html(html);
-                   var selectedSubjectId = parseInt($("#hiddenSubjectId").val());
-                    console.log("Selected Subject ID:", selectedSubjectId);
-            loadSubjectDropdown(selectedSubjectId);
-            $("#teacherModal").modal("show");
-        });
-    });
-
-    $(document).on("click", ".btn-teacher-delete", function () {
-        var id = $(this).data("id");
-        $.ajax({
-            url: "/Teacher/Delete",
-            type: "POST",
-            data: { id: id },
-            success: function () {
-                loadTeachers();
-            }
-        });
-    });
+        }
 
     </script>
 }
+

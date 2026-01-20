@@ -49,5 +49,12 @@ namespace TeacherManagementSystem.Repositories
             string sql = @"Delete From Teachers Where Id=@Id";
             return connection.Execute(sql, new { id = id });
         }
+        public bool IsSubjectAlreadyAssigned(int subjctId,int teacherId = 0)
+        {
+            using var connection = new SqlConnection(_connectionString);
+            string sql = @"Select Count(*)From Teachers Where SubjectId=@SubjectId And Id!=@TeacherId";
+            int count = connection.ExecuteScalar<int>(sql, new { SubjectId = subjctId, TeacherID = teacherId });
+            return count > 0;
+        }
     }
 }

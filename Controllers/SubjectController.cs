@@ -15,15 +15,18 @@ namespace TeacherManagementSystem.Controllers
             var subjects = _subjectRepository.GetAll();
             return View(subjects);
         }
+        [HttpGet]
         public IActionResult LoadSubjects()
         {
             var subjects = _subjectRepository.GetAll();
             return PartialView("_SubjectTable", subjects);
         }
+        [HttpGet]
         public IActionResult LoadForm()
         {
             return PartialView("_SubjectForm", new Subject());
         }
+        [HttpGet]
         public IActionResult EditPartial(int id)
         {
             var subject = _subjectRepository.GetById(id);
@@ -32,12 +35,16 @@ namespace TeacherManagementSystem.Controllers
         [HttpPost]
         public IActionResult Create(Subject subject)
         {
+            if (_subjectRepository.IsDuplicateSubject(subject.Name))
+                return BadRequest("Subject name already exists.");
             _subjectRepository.Add(subject);
             return Ok();
         }
         [HttpPost]
         public IActionResult Edit(Subject subject)
         {
+            if (_subjectRepository.IsDuplicateSubject(subject.Name, subject.Id))
+                return BadRequest("Subject name already exists.");
             _subjectRepository.Update(subject);
             return Ok();
 
@@ -53,11 +60,12 @@ namespace TeacherManagementSystem.Controllers
             return Ok();
         }
         [HttpGet]
-        public IActionResult GetSubjects()
+        public IActionResult GetAvailableSubjects(int teacherId = 0)
         {
-            var subjects = _subjectRepository.GetAll();
+            var subjects = _subjectRepository.GetAvailableSubjects(teacherId);
             return Json(subjects);
         }
+
 
 
     }

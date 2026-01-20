@@ -1,17 +1,28 @@
-﻿<h1>Dashboard</h1>
-<div class="container mt-4">
-    <button class="btn btn-primary" onclick="loadsubjectsPage()">Subject Module</button>
-    <button class="btn btn-success" onclick="loadTeachersPage()">Teacher Module</button>
-    <hr />
-    <div id="spaContainer"></div>
-</div>
-@section Scripts{
-    <script>
-        function loadsubjectsPage() {
-            $("#spaContainer").load("/Subject/Index");
-        }
-        function loadTeachersPage() {
-            $("#spaContainer").load("/Teacher/Index");
-        }
-    </script>
-}
+﻿  @* <div class="container-fluid">
+      <div class="mb-3">
+          <button id="btnLoadSubject" class="btn btn-primary me-2">Subject Module</button>
+          <button id="btnLoadTeacher" class="btn btn-success">Teacher Module</button>
+      </div>
+      <div id="mainContent">
+
+      </div>
+  </div>
+  @section scripts{
+      <script>
+          $(function(){
+              loadSubjectModule();
+              $("#btnLoadSubject").on("click",function(){
+                  loadSubjectModule();
+              });
+                $("#btnLoadTeacher").on("click",function(){
+                    loadTeacherModule();
+              });
+          });
+          function loadSubjectModule(){
+              $("#mainContent").load("Subject/Index");
+          }
+            function loadTeacherModule(){
+                $("#mainContent").load("Teacher/Index");
+          }
+      </script>
+  } *@
