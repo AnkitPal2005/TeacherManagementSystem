@@ -48,13 +48,13 @@ namespace TeacherManagementSystem.Controllers
             _subjectRepository.Delete(id);
             return Ok();
         }
-        //[HttpGet]
-        //public IActionResult GetSubjects()
-        //{
-        //    var subjects = _subjectRepository.GetAll();
-        //    return Json(subjects);
-        //}
+        [HttpGet]
+        public IActionResult GetSubjects()
+        {
+            var subjects = _subjectRepository.GetAll();
+            return Json(subjects);
+        }
 
-       
+
     }
 }

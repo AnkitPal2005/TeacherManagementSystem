@@ -1,4 +1,4 @@
-﻿<h3>Teacher Management</h3>
+﻿<h1>Teacher Portal</h1>
 <button id="btnAddTeacher" class="btn btn-primary mb-2">
     Add Teacher
 </button>
@@ -75,16 +75,20 @@
         });
     });
 
-    function loadSubjectDropdown() {
+    function loadSubjectDropdown(selectedId) {
         $.get("/Subject/GetSubjects", function (data) {
             var ddl = $("#ddlSubject");
             ddl.empty();
             ddl.append('<option value="">Select Subject</option>');
             $.each(data, function (index, item) {
+                    var selected = (item.id === selectedId) ? "selected" : "";
                 ddl.append(
-                    '<option value="' + item.id + '">' + item.name + '</option>'
+                        '<option value="' + item.id + '" ' + selected + '>' +
+                    item.name +
+                    '</option>'
                 );
             });
+                
         });
     }
 
@@ -92,7 +96,9 @@
         let id = $(this).data("id");
         $.get("/Teacher/LoadEditForm?id=" + id, function (html) {
             $("#teacherModalBody").html(html);
-            loadSubjectDropdown();
+                   var selectedSubjectId = parseInt($("#hiddenSubjectId").val());
+                    console.log("Selected Subject ID:", selectedSubjectId);
+            loadSubjectDropdown(selectedSubjectId);
             $("#teacherModal").modal("show");
         });
     });

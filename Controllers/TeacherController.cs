@@ -43,20 +43,11 @@ namespace TeacherManagementSystem.Controllers
         }
         [HttpPost]
         public IActionResult Delete(int id) {
-            try
-            {
-                var result = _teacherRepo.Delete(id);
-                if (result == 0)
-                {
-                    return NotFound(new { message = "Teacher not found or already deleted." });
-                }
+           
+                _teacherRepo.Delete(id);
+              
                 return Ok();
-            }
-            catch (Exception ex)
-            {
-                // Log the exception (if logger existed)
-                return StatusCode(500, new { message = "Error deleting teacher: " + ex.Message });
-            }
+       
         }
         public IActionResult TeacherPartial()
         {

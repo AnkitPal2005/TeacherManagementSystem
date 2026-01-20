@@ -62,10 +62,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3ViamVjdFxfU3ViamVjdEZvcm0uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/WottaCore - 01/PracticeProjects/TeacherManagementSystem/TeacherManagementSystem/Views/Subject/_SubjectIndexPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3ViamVjdFxfU3ViamVjdEluZGV4UGFydGlhbC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/WottaCore - 01/PracticeProjects/TeacherManagementSystem/TeacherManagementSystem/Views/Subject/_SubjectTable.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3ViamVjdFxfU3ViamVjdFRhYmxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -76,10 +72,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/WottaCore - 01/PracticeProjects/TeacherManagementSystem/TeacherManagementSystem/Views/Teacher/_TeacherForm.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhY2hlclxfVGVhY2hlckZvcm0uY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/WottaCore - 01/PracticeProjects/TeacherManagementSystem/TeacherManagementSystem/Views/Teacher/_TeacherIndexPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVhY2hlclxfVGVhY2hlckluZGV4UGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/WottaCore - 01/PracticeProjects/TeacherManagementSystem/TeacherManagementSystem/Views/Teacher/_TeacherTable.cshtml]

@@ -136,6 +136,6 @@ C:\Users\WottaCore - 01\PracticeProjects\TeacherManagementSystem\TeacherManageme
 C:\Users\WottaCore - 01\PracticeProjects\TeacherManagementSystem\TeacherManagementSystem\obj\Debug\net10.0\compressed\vc2nknvzwg-{0}-o1o13a6vjx-o1o13a6vjx.gz
 C:\Users\WottaCore - 01\PracticeProjects\TeacherManagementSystem\TeacherManagementSystem\obj\Debug\net10.0\TeacherManagementSystem.sourcelink.json
 C:\Users\WottaCore - 01\PracticeProjects\TeacherManagementSystem\TeacherManagementSystem\obj\Debug\net10.0\compressed\s8zgrts6ow-{0}-wakyfq9dfa-wakyfq9dfa.gz
-C:\Users\WottaCore - 01\PracticeProjects\TeacherManagementSystem\TeacherManagementSystem\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 C:\Users\WottaCore - 01\PracticeProjects\TeacherManagementSystem\TeacherManagementSystem\obj\Debug\net10.0\compressed\2gpd4a72lf-{0}-tz06whx5c3-tz06whx5c3.gz
 C:\Users\WottaCore - 01\PracticeProjects\TeacherManagementSystem\TeacherManagementSystem\obj\Debug\net10.0\compressed\zr5bgxjpka-{0}-zq0n9k8bu0-zq0n9k8bu0.gz
+C:\Users\WottaCore - 01\PracticeProjects\TeacherManagementSystem\TeacherManagementSystem\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

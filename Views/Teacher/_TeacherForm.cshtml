@@ -1,6 +1,7 @@
 ﻿@model TeacherManagementSystem.Models.Teacher
 <form id="teacherForm">
 <input type="hidden" name="Id" id="hiddenTeacherId" value="@Model.Id" />
+    <input type="hidden" id="hiddenSubjectId" value="@Model.SubjectId" />
 <div class="mb-2">
     <input type="text" name="Name" id="teacherName" class="form-control" value="@Model.Name" placeholder="Enter Teacher Name" />
 </div>

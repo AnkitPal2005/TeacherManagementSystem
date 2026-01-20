@@ -1,36 +1,5 @@
-﻿@* @model List<TeacherManagementSystem.Models.Subject>
-@{
-    ViewData["Title"] = "Subjects";
-}
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3>📚 Subject Management</h3>
-        <button class="btn btn-success" id="btnAdd">+Add Subject</button>
-    </div>
-    <div class="card shadow-sm">
-        <div class="card-body" id="tableContainer">
-             @Html.Partial("_SubjectTable", Model)
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="subjectModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalTitle">Add Subject</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body" id="modalBody">
-        </div>
-        <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="btnSave">Save Subject</button>
-    </div>
-</div>
-</div>
-</div> *@
-@model List<TeacherManagementSystem.Models.Subject>
+﻿@model List<TeacherManagementSystem.Models.Subject>
+<h1>Subject Portal</h1>
 
 <div class="container mt-4">
 
@@ -156,21 +125,6 @@
     });
 
     // Delete Button Click
-    //$(document).on("click", ".btn-subject-delete", function () {
-    //    var id = $(this).data("id");
-
-    //    $.ajax({
-    //        url: "/Subject/Delete",
-    //        type: "POST",
-    //        data: { id: id },
-    //        success: function (response) {
-    //            loadSubjects();
-    //        },
-    //        error: function (xhr, status, error) {
-    //            alert("Delete failed: " + error);
-    //        }
-    //    });
-    //});
     $(document).on("click", ".btn-subject-delete", function () {
         var id = $(this).data("id");
         $.ajax({
