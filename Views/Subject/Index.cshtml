@@ -1,4 +1,4 @@
-﻿@model List<TeacherManagementSystem.Models.Subject>
+﻿@* @model List<TeacherManagementSystem.Models.Subject> *@
 <h1>Subject Portal</h1>
 
 <div class="container mt-4">
@@ -58,13 +58,13 @@
 </div>
 @section Scripts{
   <script>
-       
+       var currentEditID=null;
               $(function () {
-            loadSubjects();
+             loadSubjects();
 
           // ADD SUBJECT BUTTON
             $(document).on("click", ".btnAdd", function () {
-
+                 currentEditID=null;
                 console.log("btn add click");
 
 
@@ -84,47 +84,82 @@
                         return false;
                     }
 
-                    var id = $("#subjectId").val() || 0;
+                    // var id = $("#subjectId").val() || 0;
                     var subjectObj = {
-                        Id: parseInt(id) || 0,
+                        // Id: parseInt(id) || 0,
                         Name: $("#subjectName").val(),
                         Code: $("#subjectCode").val()
                     };
-
+                    console.log(subjectObj);
                     if (!subjectObj.Name.trim() || !subjectObj.Code.toString().trim()) {
                         alert("Please fill in all fields.");
                         return;
                     }
 
-                    var url = subjectObj.Id === 0 ? "/Subject/Create" : "/Subject/Edit";
+                    // var url = subjectObj.Id === 0 ? "/Subject/Create" : "/Subject/Edit";
+
 
                     // Disable button to prevent double click
                     var $btn = $(this);
                     $btn.prop('disabled', true).text('Saving...');
 
-                    $.ajax({
-                        url: url,
-                        type: "POST",
-                        data: subjectObj,
-                        success: function () {
-                            $("#subjectModal").modal("hide");
-                            loadSubjects();
-                            $btn.prop('disabled', false).text('Save');
-                        },
-                        error: function (xhr) {
-                            alert(xhr.responseText);
-                            $btn.prop('disabled', false).text('Save');
-                        }
-                    });
+                    // $.ajax({
+                    //     url: url,
+                    //     type: "POST",
+                    //     data: subjectObj,
+                    //     success: function () {
+                    //         $("#subjectModal").modal("hide");
+                    //         loadSubjects();
+                    //         $btn.prop('disabled', false).text('Save');
+                    //     },
+                    //     error: function (xhr) {
+                    //         alert(xhr.responseText);
+                    //         $btn.prop('disabled', false).text('Save');
+                    //     }
+                    // });
+                    if(currentEditID==null){
+
+                        $.ajax({
+                             url: "/Subject/Create",
+                              type: "POST",
+                                 data: subjectObj,
+                                  success: function () {
+                                       $("#subjectModal").modal("hide");
+                                         loadSubjects();
+                                         $btn.prop('disabled',false).text('Save');
+                                  },
+                                  error:function(xhr){
+                                      alert(xhr.responseText);
+                                         $btn.prop('disabled',false).text('Save');
+                                  }
+                                  });
+                                  }
+                    else{
+                        $.ajax({
+                             url: "/Subject/Edit/"+currentEditID,
+                             type:"POST",
+                              data:subjectObj,
+                              success:function(){
+                                   $("#subjectModal").modal("hide");
+                                       loadSubjects();
+                                         $btn.prop('disabled',false).text('Save');
+                              },
+                              error:function(xhr){
+                                   alert(xhr.responseText);
+                                       $btn.prop('disabled',false).text('Save');
+                               }
+                        });
+                    }
                 });
         });
 
         //Edit Button Click
         $(document).off("click", ".btn-subject-edit")
             .on("click", ".btn-subject-edit", function () {
-                var id = $(this).data("id");
+                // var id = $(this).data("id");
+                 currentEditID=$(this).data("id");
                 $("#modalTitle").text("Edit Subject");
-                $.get("/Subject/EditPartial?id=" + id, function (html) {
+                $.get("/Subject/EditPartial", {id: currentEditID}, function (html) {
                     $("#modalBody").html(html);
                     $("#subjectModal").modal("show");
                 });

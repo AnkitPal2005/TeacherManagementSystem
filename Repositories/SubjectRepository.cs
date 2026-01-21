@@ -24,14 +24,16 @@ namespace TeacherManagementSystem.Repositories
         {
             using var connection = new SqlConnection(_connectionString);
             {
-                string sql = @"Select * From Subjects Order By ID ASC";
+                //string sql = @"Select * From Subjects Order By ID ASC";
+                string sql = @"Select Id,Name,Code From Subjects Order By Id ASC";
                 return connection.Query<Subject>(sql).ToList();
             }
         }
         public Subject GetById(int id)
         {
             using var connection = new SqlConnection(_connectionString);
-            string sql = @"Select * From Subjects Where Id=@Id";
+            //string sql = @"Select * From Subjects Where Id=@Id";
+            string sql = @"Select Id, Name,Code From Subjects Where Id=@Id";
             return connection.QueryFirstOrDefault<Subject>(sql, new { Id = id });
         }
         public int Update(Subject subject)

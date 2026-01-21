@@ -12,8 +12,8 @@ namespace TeacherManagementSystem.Controllers
         }
         public IActionResult Index()
         {
-            var subjects = _subjectRepository.GetAll();
-            return View(subjects);
+            //var subjects = _subjectRepository.GetAll();
+            return View();
         }
         [HttpGet]
         public IActionResult LoadSubjects()
@@ -36,15 +36,21 @@ namespace TeacherManagementSystem.Controllers
         public IActionResult Create(Subject subject)
         {
             if (_subjectRepository.IsDuplicateSubject(subject.Name))
-                return BadRequest("Subject name already exists.");
+                //return BadRequest("Subject name already exists.");
+                return StatusCode(400, "Subject name already exists.");
             _subjectRepository.Add(subject);
             return Ok();
         }
-        [HttpPost]
-        public IActionResult Edit(Subject subject)
+        [HttpPost("Subject/Edit/{id}")]
+        public IActionResult Edit(int id,Subject subject)
         {
+            var existing = _subjectRepository.GetById(id);
+            if (existing == null)
+                return NotFound();
+
+            subject.Id = id;
             if (_subjectRepository.IsDuplicateSubject(subject.Name, subject.Id))
-                return BadRequest("Subject name already exists.");
+                return StatusCode(400,"Subject name already exists.");
             _subjectRepository.Update(subject);
             return Ok();
 
@@ -54,7 +60,7 @@ namespace TeacherManagementSystem.Controllers
         {
             if (_subjectRepository.IsSubjectUsed(id))
             {
-                return BadRequest("Cannot delete subject as it is assigned to one or more teachers.");
+                return StatusCode(400,"Cannot delete subject as it is assigned to one or more teachers.");
             }
             _subjectRepository.Delete(id);
             return Ok();

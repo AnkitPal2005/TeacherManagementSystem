@@ -31,7 +31,6 @@
 
                     $("#teacherModalBody").html(html);
 
-                    // teacherId = 0 (new add)
                     loadSubjectDropdown(0, 0);
 
                     $("#teacherModal").modal("show");
@@ -82,7 +81,7 @@
 
                 let id = $(this).data("id");
 
-                $.get("/Teacher/LoadEditForm?id=" + id, function (html) {
+                $.get("/Teacher/LoadEditForm", {id: id}, function (html) {
 
                     $("#teacherModalBody").html(html);
 
