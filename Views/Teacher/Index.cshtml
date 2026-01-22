@@ -1,4 +1,4 @@
-﻿<h1>Teacher Portal</h1>
+﻿<h1>👨‍🏫Teacher Portal</h1>
 <button id="btnAddTeacher" class="btn btn-primary mb-2">
     Add Teacher
 </button>
@@ -26,12 +26,15 @@
 
             // ADD TEACHER
             $(document).on("click", "#btnAddTeacher", function () {
+                $("#teacherModalTitle").text("Add Teacher");
 
                 $.get("/Teacher/LoadForm", function (html) {
 
                     $("#teacherModalBody").html(html);
+                    $("#btnSaveTeacher").data("url","/Teacher/AddTeacher");
 
                     loadSubjectDropdown(0, 0);
+
 
                     $("#teacherModal").modal("show");
 
@@ -52,11 +55,14 @@
                     Email: $("input[name='Email']").val(),
                     SubjectId: $("#ddlSubject").val()
                 };
-
+                if(!formData.Name||!formData.Email||!formData.SubjectId){
+                    alert("Please fill all required fields.");
+                }
+                var url=$btn.data("url");
                 $btn.prop("disabled", true);
 
                 $.ajax({
-                    url: "/Teacher/AddTeacher",
+                    url: url,
                     type: "POST",
                     data: formData,
                     success: function () {
@@ -91,6 +97,7 @@
                     var selectedSubjectId =
                         parseInt($("#hiddenSubjectId").val());
 
+                        $("#btnSaveTeacher").data("url","/Teacher/UpdateTeacher");
                     // pass both ids
                     loadSubjectDropdown(selectedSubjectId, teacherId);
 
@@ -132,6 +139,8 @@
         // LOAD FILTERED SUBJECT DROPDOWN
        
         function loadSubjectDropdown(selectedId, teacherId) {
+            console.log("DDL FOUND:", $("#ddlSubject").length);
+           
 
             $.get("/Subject/GetAvailableSubjects?teacherId=" + teacherId,
                 function (data) {
@@ -151,6 +160,7 @@
                             ${item.name}
                          </option>`
                     );
+                     console.log("SUBJECT API DATA:", data);
                 });
 
             });

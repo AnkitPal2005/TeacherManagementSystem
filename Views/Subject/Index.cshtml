@@ -58,19 +58,20 @@
 </div>
 @section Scripts{
   <script>
-       var currentEditID=null;
+       // var currentEditID=null;
               $(function () {
              loadSubjects();
 
           // ADD SUBJECT BUTTON
             $(document).on("click", ".btnAdd", function () {
-                 currentEditID=null;
+                 // currentEditID=null;
                 console.log("btn add click");
 
 
                 $("#modalTitle").text("Add Subject");
                 $.get("/Subject/LoadForm", function (html) {
                     $("#modalBody").html(html);
+                    $("#btnSave").data("url","/Subject/Create");
                     $("#subjectModal").modal("show");
                 });
             });
@@ -98,69 +99,36 @@
 
                     // var url = subjectObj.Id === 0 ? "/Subject/Create" : "/Subject/Edit";
 
-
+                     var url=$(this).data("url");
                     // Disable button to prevent double click
                     var $btn = $(this);
                     $btn.prop('disabled', true).text('Saving...');
 
-                    // $.ajax({
-                    //     url: url,
-                    //     type: "POST",
-                    //     data: subjectObj,
-                    //     success: function () {
-                    //         $("#subjectModal").modal("hide");
-                    //         loadSubjects();
-                    //         $btn.prop('disabled', false).text('Save');
-                    //     },
-                    //     error: function (xhr) {
-                    //         alert(xhr.responseText);
-                    //         $btn.prop('disabled', false).text('Save');
-                    //     }
-                    // });
-                    if(currentEditID==null){
-
-                        $.ajax({
-                             url: "/Subject/Create",
-                              type: "POST",
-                                 data: subjectObj,
-                                  success: function () {
-                                       $("#subjectModal").modal("hide");
-                                         loadSubjects();
-                                         $btn.prop('disabled',false).text('Save');
-                                  },
-                                  error:function(xhr){
-                                      alert(xhr.responseText);
-                                         $btn.prop('disabled',false).text('Save');
-                                  }
-                                  });
-                                  }
-                    else{
-                        $.ajax({
-                             url: "/Subject/Edit/"+currentEditID,
-                             type:"POST",
-                              data:subjectObj,
-                              success:function(){
-                                   $("#subjectModal").modal("hide");
-                                       loadSubjects();
-                                         $btn.prop('disabled',false).text('Save');
-                              },
-                              error:function(xhr){
-                                   alert(xhr.responseText);
-                                       $btn.prop('disabled',false).text('Save');
-                               }
-                        });
-                    }
-                });
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        data: subjectObj,
+                        success: function () {
+                            $("#subjectModal").modal("hide");
+                            loadSubjects();
+                            $btn.prop('disabled', false).text('Save');
+                        },
+                        error: function (xhr) {
+                            alert(xhr.responseText);
+                            $btn.prop('disabled', false).text('Save');
+                        }
+                    });
         });
 
         //Edit Button Click
         $(document).off("click", ".btn-subject-edit")
             .on("click", ".btn-subject-edit", function () {
-                // var id = $(this).data("id");
-                 currentEditID=$(this).data("id");
+                var id = $(this).data("id");
+                 // currentEditID=$(this).data("id");
                 $("#modalTitle").text("Edit Subject");
-                $.get("/Subject/EditPartial", {id: currentEditID}, function (html) {
+                $.get("/Subject/EditPartial", {id: id}, function (html) {
                     $("#modalBody").html(html);
+                     $("#btnSave").data("url","/Subject/Edit/"+id);
                     $("#subjectModal").modal("show");
                 });
             });
@@ -181,7 +149,7 @@
                     }
                 });
             });
-
+            });
         function loadSubjects() {
             $.ajax({
                 url: "/Subject/LoadSubjects",

@@ -24,13 +24,15 @@ namespace TeacherManagementSystem.Controllers
         [HttpGet]
         public IActionResult LoadForm()
         {
-            return PartialView("_SubjectForm", new Subject());
+            //return PartialView("_SubjectForm", new Subject());
+            return PartialView("_CreateSubjectForm");
         }
         [HttpGet]
         public IActionResult EditPartial(int id)
         {
             var subject = _subjectRepository.GetById(id);
-            return PartialView("_SubjectForm", subject);
+            //return PartialView("_SubjectForm", subject);
+            return PartialView("_EditSubjectForm", subject);
         }
         [HttpPost]
         public IActionResult Create(Subject subject)
@@ -41,14 +43,15 @@ namespace TeacherManagementSystem.Controllers
             _subjectRepository.Add(subject);
             return Ok();
         }
-        [HttpPost("Subject/Edit/{id}")]
-        public IActionResult Edit(int id,Subject subject)
+        //("Subject/Edit/{id}")
+        [HttpPost]
+        public IActionResult Edit(Subject subject)
         {
-            var existing = _subjectRepository.GetById(id);
+            var existing = _subjectRepository.GetById(subject.Id);
             if (existing == null)
                 return NotFound();
 
-            subject.Id = id;
+            //subject.Id = id;
             if (_subjectRepository.IsDuplicateSubject(subject.Name, subject.Id))
                 return StatusCode(400,"Subject name already exists.");
             _subjectRepository.Update(subject);

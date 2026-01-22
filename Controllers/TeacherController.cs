@@ -24,7 +24,15 @@ namespace TeacherManagementSystem.Controllers
         [HttpGet]
         public IActionResult LoadForm()
         {
-            return PartialView("_TeacherForm", new Teacher());
+            //return PartialView("_TeacherForm", new Teacher());
+            return PartialView("_CreateTeacherForm");
+        }
+        [HttpGet]
+        public IActionResult LoadEditForm(int id)
+        {
+            var teacher = _teacherRepo.GetById(id);
+            if (teacher==null) return NotFound();
+            return PartialView("_EditTeacherForm", teacher);
         }
         [HttpPost]
         public IActionResult AddTeacher(Teacher teacher)
@@ -34,18 +42,25 @@ namespace TeacherManagementSystem.Controllers
             {
                 return BadRequest("This subject is already assigned to another teacher.");
             }
-            if (teacher.Id == 0) 
+            //if (teacher.Id == 0) 
             _teacherRepo.Add(teacher);
-            else                 
-                _teacherRepo.Update(teacher);
+            //else                 
+                //_teacherRepo.Update(teacher);
             return Ok();
 
         }
-        [HttpGet]
-        public IActionResult LoadEditForm(int id)
+        [HttpPost]
+        public IActionResult UpdateTeacher(Teacher teacher)
         {
-            var teacher = _teacherRepo.GetById(id);
-            return PartialView("_TeacherForm", teacher);
+            var existing = _teacherRepo.GetById(teacher.Id);
+            if (existing == null) return NotFound();
+            bool alreadyAssigned = _teacherRepo.IsSubjectAlreadyAssigned(teacher.SubjectId, teacher.Id);
+            if (alreadyAssigned)
+            {
+                return BadRequest("This subject is already assigned to another teacher.");
+            }
+            _teacherRepo.Update(teacher);
+            return Ok();
         }
         [HttpPost]
         public IActionResult Delete(int id) {

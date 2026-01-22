@@ -1,0 +1,32 @@
+﻿@model TeacherManagementSystem.Models.Teacher
+
+<input type="hidden" id="hiddenTeacherId" value="@Model.Id">
+<input type="hidden" id="hiddenSubjectId" value="@Model.SubjectId">
+<div class="mb-3">
+    <label>Teacher Name</label>
+    <input type="text" id="teacherName"
+        name="Name"
+           class="form-control"
+           value="@Model.Name">
+</div>
+<div class="mb-3">
+    <label>Email</label>
+    <input type="email"
+           name="Email"
+           class="form-control"
+           value="@Model.Email">
+</div>
+<div class="mb-3">
+    <label>Subject</label>
+    <select id="ddlSubject" class="form-control"></select>
+</div>
+<button type="button"
+        class="btn btn-primary"
+        id="btnSaveTeacher">
+    Update Teacher
+</button>
+<button type="button"
+        class="btn btn-secondary"
+        data-bs-dismiss="modal">
+    Cancel
+</button>
