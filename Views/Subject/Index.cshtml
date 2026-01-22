@@ -1,10 +1,9 @@
-﻿@* @model List<TeacherManagementSystem.Models.Subject> *@
-<h1>Subject Portal</h1>
+﻿
 
 <div class="container mt-4">
 
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3>📚 Subject Management</h3>
+        <h1>📚 Subject Management</h1>
         <button class="btn btn-success btnAdd">
             + Add Subject
         </button>
@@ -79,7 +78,7 @@
             // Save Button Click - FIX: Check if already saving
             $(document).off("click", "#btnSave")
                 .on("click", "#btnSave", function () {
-
+                    
                     // Prevent double submission
                     if ($(this).prop('disabled')) {
                         return false;
@@ -88,20 +87,20 @@
                     // var id = $("#subjectId").val() || 0;
                     var subjectObj = {
                         // Id: parseInt(id) || 0,
-                        Name: $("#subjectName").val(),
+                        Names: $("#subjectName").val(),
                         Code: $("#subjectCode").val()
                     };
                     console.log(subjectObj);
-                    if (!subjectObj.Name.trim() || !subjectObj.Code.toString().trim()) {
+                    if (!subjectObj.Names.trim() || !subjectObj.Code.toString().trim()) {
                         alert("Please fill in all fields.");
                         return;
                     }
 
                     // var url = subjectObj.Id === 0 ? "/Subject/Create" : "/Subject/Edit";
-
+                     var $btn = $(this);
                      var url=$(this).data("url");
                     // Disable button to prevent double click
-                    var $btn = $(this);
+               
                     $btn.prop('disabled', true).text('Saving...');
 
                     $.ajax({
@@ -140,7 +139,7 @@
                 $.ajax({
                     url: "/Subject/Delete",
                     type: "POST",
-                    data: { id: id },
+                    data: { sid: id },
                     success: function () {
                         loadSubjects();
                     },
@@ -165,4 +164,5 @@
         
   </script>
 
-} 
+}  
+

@@ -57,6 +57,7 @@
                 };
                 if(!formData.Name||!formData.Email||!formData.SubjectId){
                     alert("Please fill all required fields.");
+                    return;
                 }
                 var url=$btn.data("url");
                 $btn.prop("disabled", true);
@@ -157,7 +158,7 @@
 
                     ddl.append(
                         `<option value="${item.id}" ${selected}>
-                            ${item.name}
+                            ${item.names}
                          </option>`
                     );
                      console.log("SUBJECT API DATA:", data);

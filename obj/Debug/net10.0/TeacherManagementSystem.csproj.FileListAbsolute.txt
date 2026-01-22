@@ -136,7 +136,6 @@ C:\Users\WottaCore - 01\PracticeProjects\TeacherManagementSystem\TeacherManageme
 C:\Users\WottaCore - 01\PracticeProjects\TeacherManagementSystem\TeacherManagementSystem\obj\Debug\net10.0\TeacherManagementSystem.sourcelink.json
 C:\Users\WottaCore - 01\PracticeProjects\TeacherManagementSystem\TeacherManagementSystem\obj\Debug\net10.0\compressed\s8zgrts6ow-{0}-wakyfq9dfa-wakyfq9dfa.gz
 C:\Users\WottaCore - 01\PracticeProjects\TeacherManagementSystem\TeacherManagementSystem\obj\Debug\net10.0\compressed\zr5bgxjpka-{0}-zq0n9k8bu0-zq0n9k8bu0.gz
-C:\Users\WottaCore - 01\PracticeProjects\TeacherManagementSystem\TeacherManagementSystem\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 C:\Users\WottaCore - 01\PracticeProjects\TeacherManagementSystem\TeacherManagementSystem\obj\Debug\net10.0\compressed\yvzemlhm9f-{0}-r3unjvhb45-r3unjvhb45.gz
 C:\Users\WottaCore - 01\PracticeProjects\TeacherManagementSystem\TeacherManagementSystem\obj\Debug\net10.0\compressed\uutfeqci63-{0}-02037ac2e4-02037ac2e4.gz
 C:\Users\WottaCore - 01\PracticeProjects\TeacherManagementSystem\TeacherManagementSystem\obj\Debug\net10.0\compressed\aj1qbe3pha-{0}-40226ad91u-40226ad91u.gz
@@ -2030,3 +2029,4 @@ C:\Users\WottaCore - 01\PracticeProjects\TeacherManagementSystem\TeacherManageme
 C:\Users\WottaCore - 01\PracticeProjects\TeacherManagementSystem\TeacherManagementSystem\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 C:\Users\WottaCore - 01\PracticeProjects\TeacherManagementSystem\TeacherManagementSystem\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 C:\Users\WottaCore - 01\PracticeProjects\TeacherManagementSystem\TeacherManagementSystem\obj\Debug\net10.0\compressed\2gpd4a72lf-{0}-3qr172u4l0-3qr172u4l0.gz
+C:\Users\WottaCore - 01\PracticeProjects\TeacherManagementSystem\TeacherManagementSystem\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt

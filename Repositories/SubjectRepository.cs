@@ -15,7 +15,7 @@ namespace TeacherManagementSystem.Repositories
         {
             using var connection = new SqlConnection(_connectionString);
             {
-                string sql = @"Insert Into Subjects(Name,Code)Values(@Name,@Code)";
+                string sql = @"Insert Into Subjects(Name,Code)Values(@Names,@Code)";
                 return connection.Execute(sql, subject);
             }
         }
@@ -25,7 +25,7 @@ namespace TeacherManagementSystem.Repositories
             using var connection = new SqlConnection(_connectionString);
             {
                 //string sql = @"Select * From Subjects Order By ID ASC";
-                string sql = @"Select Id,Name,Code From Subjects Order By Id ASC";
+                string sql = @"Select Id,Name as Names,Code From Subjects Order By Id ASC";
                 return connection.Query<Subject>(sql).ToList();
             }
         }
@@ -33,13 +33,13 @@ namespace TeacherManagementSystem.Repositories
         {
             using var connection = new SqlConnection(_connectionString);
             //string sql = @"Select * From Subjects Where Id=@Id";
-            string sql = @"Select Id, Name,Code From Subjects Where Id=@Id";
+            string sql = @"Select Id, Name as Names,Code From Subjects Where Id=@Id";
             return connection.QueryFirstOrDefault<Subject>(sql, new { Id = id });
         }
         public int Update(Subject subject)
         {
             using var connection = new SqlConnection(_connectionString);
-            string sql = @"Update Subjects Set Name=@Name,Code=@Code Where Id=@Id";
+            string sql = @"Update Subjects Set Name=@Names,Code=@Code Where Id=@Id";
             return connection.Execute(sql, subject);
         }
         public int Delete(int id)
@@ -59,7 +59,12 @@ namespace TeacherManagementSystem.Repositories
         {
             using var connection = new SqlConnection(_connectionString);
 
-            string sql = @"SELECT * FROM Subjects WHERE Id NOT IN (SELECT SubjectId FROM Teachers WHERE Id != @TeacherId) ORDER BY Id ASC";
+            //string sql = @"SELECT * FROM Subjects WHERE Id NOT IN (SELECT SubjectId FROM Teachers WHERE Id != @TeacherId) ORDER BY Id ASC";
+            string sql = @"SELECT Id, Name AS Names, Code 
+               FROM Subjects 
+               WHERE Id NOT IN (
+                   SELECT SubjectId FROM Teachers WHERE Id != @TeacherId
+               )";
 
             return connection.Query<Subject>(sql, new { TeacherId = teacherId }).ToList();
         }
